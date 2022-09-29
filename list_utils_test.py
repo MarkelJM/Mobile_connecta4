@@ -19,3 +19,4 @@ def test_find_n():
     assert find_n([1, 2, 3, 4, 5], 1, 2) == False
     assert find_n([1, 2, 3, 2, 4, 5], 2, 2)
     assert find_n([1, 2, 3, 4, 5, 6 , 7, 4, 6], 4, 2)
+    assert find_n([1, 2, 3, 2, 4, 5], 'x', 0) == True

@@ -18,13 +18,7 @@ class LinearBoard():
             self._column[i] = char
 
     def is_victory(self, char):
-        
-        def horizonal_victory():
-            pass
-        def vertical_victory():
-            pass
-        def diagonal_victory():
-            pass
+        return False
     
     def is_full(self):
         return self._column[-1] != None

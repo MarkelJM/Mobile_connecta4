@@ -18,7 +18,7 @@ def test_victory():
     b = LinearBoard()
     for i in range(VICTORY_STRIKE):
         b.add('x')
-    
+
     assert b.is_victory('o') == False
     assert b.is_victory('x') == True
 

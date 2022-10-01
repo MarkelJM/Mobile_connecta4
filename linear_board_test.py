@@ -29,7 +29,6 @@ def test_tie():
 
     b.add('o')
     b.add('o')
-    b.add('o')
     b.add('x')
     b.add('o')
 
@@ -37,7 +36,7 @@ def test_tie():
 
 
 def test_add_to_full():
-    full = LinearBoard
+    full = LinearBoard()
     for i in range(BOARD_LENGTH):
         full.add('x')
 

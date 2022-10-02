@@ -29,4 +29,20 @@ def test_find_streak():
     assert find_streak([1, 2, 3, 4, 5, 5, 5], 5, 3)
     assert find_streak([5, 5, 5,1, 2, 3, 4], 5, 3)
     assert find_streak([1, 2, 5, 5, 5, 3, 4], 5, 3)
-    assert find_streak([1, 2, 3, 4, 5, 5, 5], 5, 4) == False
+    assert find_streak([1, 2, 3, 4, 5, 5, 5], 5, 4) == False 
+
+def test_first_elements():
+    original = [[0,7,3],[4,0,1]]
+    #matriz_2 = [[None,7,3,],[None,0,1]]
+    #matriz_3 = [[None,None,None],[None,None,None]]
+
+    assert first_elements(original) == [0,4]
+    #assert first_elements(matriz_2) == [None,None]
+    #assert first_elements(matriz_3) == [None,None]
+
+def test_transpose():
+    original = [[0,7,3],[4,0,1]]
+    transposed = [[0,4],[7,0],[3,1]]
+
+    assert transpose(original) == transposed
+    assert transpose(transpose(original)) == original

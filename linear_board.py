@@ -4,6 +4,12 @@ from list_utils import *
 
 class LinearBoard():
 
+    @classmethod
+    def fromList(cls, list):
+        board = cls()
+        board._column = list
+        return board
+
     def __init__(self):
 
         self._column = [None  for i in range(BOARD_LENGTH)]

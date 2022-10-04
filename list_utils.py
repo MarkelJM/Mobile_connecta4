@@ -1,3 +1,7 @@
+
+from turtle import filling
+
+
 def find_one(list , needle):
     """
     Devuerlve True si encuentra una o más ocurrencias de needle en list
@@ -96,6 +100,38 @@ def transpose(matrix):
     # devolver la nueva matriz
     return matrix_results
 
+def displace(list, distance, filler=None):
+    if distance == 0:
+        return list
+
+    elif distance > 0 :
+        filling = [filler] * distance
+        res = filling + list
+        res = res[:-distance]
+        return res
+    
+    else:
+        filling = [filler] * abs(distance)
+        res = list + filling
+        res = res[abs(distance):]
+        return res
+
+
+def displace_matrix(m, filler=None):
+    d = []
+    for i in range(len(m)):
+        d.append(displace(m[i], i - 1 , filler))
+
+    return d
+
+def reverse_list(lista):
+    return list(reversed(lista))
+
+def reverse_matrix(matrix):
+    rm = []
+    for col in matrix:
+        rm.append(reverse_list(col))
+    return rm
 
 
     

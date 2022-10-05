@@ -27,3 +27,4 @@ def test_equality():
     # no equivalentes (puesto qu eno tienen la misma clasificación)
     assert cr != ColumnRecommendation(2, ColumnClassification.FULL)
     assert cr != ColumnRecommendation(3, ColumnClassification.FULL)
+

@@ -40,6 +40,9 @@ class SquareBoard():
         Devuelve una representacion en formato de matriz, lista de listas
         """
         return list(map(lambda x: x._column, self._columns))
+    
+    def add(self, char, column):
+        self._columns[column].add(char)
 
     # Detectar victoria
     def is_victory(self, char):

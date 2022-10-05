@@ -34,7 +34,8 @@ class ColumnRecommendation():
         else:
             return self.classification == other.classification
         
-       
+    def __hash__(self) :
+        return hash(self.index, self.classification)
 
 class ColumnClassification():
     FULL = auto()

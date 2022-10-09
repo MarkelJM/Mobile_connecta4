@@ -1,5 +1,5 @@
 
-from turtle import filling
+import re
 
 
 def find_one(list , needle):
@@ -12,26 +12,25 @@ def find_one(list , needle):
 
 def find_n(list, needle, n):
     """
-    devuelve True si en list hay n o mas ocurrencias de needle
-    False si hay menos o si n<0
+    Devuelve True si en list hay n o más ocurrencias de needle
+    False si hay menos o si n < 0
     """
-
-    # si n > 0  ...
+    # si n >= 0...
     if n >= 0:
-        # inicializamos el indice y el contador
+        # Incializamos el índice y el contador
         index = 0
-        count = 0    
+        count = 0
+
         # mientras no hayamos encontrado al elemento n veces o no hayamos terminado la lista...
         while count < n and index < len(list):
-            # si lo encontramos actualizamos el contador
+            # si lo encontramos, actualizamos el contador
             if needle == list[index]:
-                count += 1
-                
-            # avanzamos al siguiente elemento
-            index  += 1
-            # devolvemos el resultado de comparar contador con n
-        return count >= n
+                count = count + 1
 
+            # avanzamos al siguiente elemento
+            index = index + 1
+        # devolvemos el resultado de comparar contador con n
+        return count >= n
     else:
         return False
         
@@ -89,16 +88,16 @@ def nth_elements(list_of_lists, n):
 
 def transpose(matrix):
     """
-    Recibe una lista de lista y lo convierte en una lista de lista transpuesta(poner las filas de una matriz como columnas)
+    Recibe una matriz y devuelve su transpuesta
     """
-    # crear una nueva matriz 
-    matrix_results = []  
-    # recorremos el enésimo elemento de cada
-    for i in range(len(matrix[0])):         
-        # añadir la lista a la nueva matrix
-        matrix_results.append(nth_elements(matrix, i) )
-    # devolver la nueva matriz
-    return matrix_results
+    # Creo un amatriz vacía y la llamo transp
+    transp = []
+    # Recorremos todas las columnas de la matriz original
+    for n in range(len(matrix[0])):
+        # extraigo los elementos enésimos y los encasqueto a transp
+        transp.append(nth_elements(matrix, n))
+    # devuelvo trnasp
+    return transp
 
 def displace(list, distance, filler=None):
     if distance == 0:

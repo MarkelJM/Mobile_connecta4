@@ -10,6 +10,7 @@ class Player():
         self.name = name
         self.char = char
         self._oracle = oracle
+        self.opponent = opponent
 
     def play(self, board):
         """

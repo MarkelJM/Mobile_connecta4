@@ -1,8 +1,21 @@
 import pytest
-from player import Player
+from player import Player, HumanPlayer
+from match import Match
 
-xavier = Player('Prof. Xavier')
-otto = Player('Dr Octopus')
+xavier = None
+otto = None
+
+def setup():
+    global xavier
+    xavier = HumanPlayer('Prof. Xavier')
+    global otto
+    otto = Player('Dr Octopus')
+
+def teardown():
+    global xavier
+    xavier = None
+    global otto
+    otto = None
 
 def test_different_player_have_different_chars():
     t = Match(xavier, otto)

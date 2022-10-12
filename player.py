@@ -11,6 +11,7 @@ class Player():
         self.char = char
         self._oracle = oracle
         self.opponent = opponent
+        self.last_move = None
 
     @property
     def opponent(self):
@@ -36,6 +37,7 @@ class Player():
     def _play_on(self,board, position):
         #juega en la pos
         board.add(self.char, position)
+        self.last_move = position
 
     def _ask_oracle(self, board):
         """

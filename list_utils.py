@@ -132,6 +132,17 @@ def reverse_matrix(matrix):
         rm.append(reverse_list(col))
     return rm
 
+def all_same(l):
+    if l == []:
+        return True
+    else:
+        same = True
+        first = l[0]
+        for elt in l:
+            if elt != first:
+                same = False
+                break
+        return same
 
     
 

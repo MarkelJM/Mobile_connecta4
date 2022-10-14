@@ -1,7 +1,8 @@
-import imp
+
 import pyfiglet
 from enum import Enum, auto
 from match import Match
+from oracle import SmartOracle, BaseOracle
 from player import HumanPlayer, Player
 from square_board import SquareBoard
 from list_utils import reverse_matrix
@@ -16,7 +17,7 @@ class RoundType(Enum):
 class DifficultyLevel(Enum):
     LOW = auto()
     MEDIUM = auto()
-    HIGHT = auto()
+    HIGH = auto()
 class Game:
     
     def __init__(self, round_type = RoundType.COMPUTER_VS_COMPUTER, match = Match(Player('Chip'), Player('Chop'))) :
@@ -83,8 +84,28 @@ class Game:
 
     def _configure_by_user(self):
         self.round_type = self._get_round_type()
-
+        if self.round_type == RoundType.COMPUTER_VS_HUMAN:
+            self._difficulty_level = self._get_difficulty_level()
         self.match = self._make_match()
+    
+    def _get_difficulty_level(self):
+        print("""elige tu oponente:
+        1) Bender: nivel bajo
+        2)T-800: Medio
+        3) T-100: Dificil
+        """)
+        while True:
+            response = input('elige 1,2 o 3:').strip()
+            if response ==1:
+                level = DifficultyLevel.LOW
+                break
+            elif response == 2:
+                level = DifficultyLevel.MEDIUM
+                break
+            else:
+                level = DifficultyLevel.HIGH
+                break
+        return level
 
     def _get_round_type():
           
@@ -104,12 +125,13 @@ class Game:
 
     def _make_match(self):
         
-        
+        _levels = {DifficultyLevel.LOW : BaseOracle(),
+        DifficultyLevel.MEDIUM : SmartOracle(), DifficultyLevel.HIGH : SmartOracle()}
         if self.round_type == RoundType.COMPUTER_VS_COMPUTER:
-            player1 = Player('T-X')
-            player2 = Player('T-1000')
+            player1 = Player('T-X', oracle=SmartOracle())
+            player2 = Player('T-1000', oracle=SmartOracle())
         else:
-            player1 = Player('T-800')
+            player1 = Player('T-800', oracle=_levels[self._difficulty_level])
             player2 = HumanPlayer(name=input("escribe tu nombre"))
 
         return Match(player1, player2)

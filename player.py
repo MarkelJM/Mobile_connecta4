@@ -1,3 +1,4 @@
+from random import random
 from settings import  BOARD_LENGTH
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
 
@@ -51,7 +52,14 @@ class Player():
     def _choose(self, recommendations):
         valid = list(filter(lambda x : x.classification != ColumnClassification.FULL, recommendations))
 
-        return valid[0]
+        valid = sorted(valid, key=lambda x: x.classification.value, reverse=True)
+
+        if all_same(valid):
+            return random.choice(valid)
+
+        else:
+            return valid[0]
+        
 
 class HumanPlayer(Player):
 

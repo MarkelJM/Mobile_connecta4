@@ -97,3 +97,14 @@ def test_all_same():
                      ColumnRecommendation(2, ColumnClassification.WIN)]) 
     assert all_same([ColumnRecommendation(0, ColumnClassification.MAYBE),
                      ColumnRecommendation(0, ColumnClassification.WIN)]) == False
+
+def test_collapse_list():
+    assert collapse_list([]) == ''
+    assert collapse_list(['o', 'x', 'x', 'o']) == 'oxxo'
+    assert collapse_list(['x', 'x', None, None, None]) == 'xx...'
+
+def test_collapse_matrix():
+    assert collapse_matrix([]) == ''
+    assert collapse_matrix([['x', 'x', None],
+                           ['o', 'x', 'x'],
+                           ['o', None, None]]) == 'xx.|oxx|o..'

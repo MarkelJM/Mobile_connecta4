@@ -143,7 +143,23 @@ def all_same(l):
                 same = False
                 break
         return same
+    
+def collapse_list(l, empty = '.'):
+    collasped = ''
+    for elt in l:
+        if elt == None:
+            collasped = collasped + empty
+        else:
+            collasped = collasped + elt
+    
+    return collasped
 
+def collapse_matrix(m, empty = '.', fence = '|'):
+    collapsed = ''
+    for elt in m:
+        collapsed = collapsed + fence + collapse_list(elt, empty)
+
+    return collapsed[1:]
     
 
 

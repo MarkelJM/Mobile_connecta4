@@ -1,6 +1,9 @@
+
 from linear_board import LinearBoard
-from list_utils import displace_matrix, reverse_matrix, transpose
+from list_utils import displace_matrix, replace_all_in_matrix, reverse_matrix, transpose
+from string_utils import _explode_list_of_strings
 from settings import BOARD_LENGTH
+
 
 class SquareBoard():
     """
@@ -14,6 +17,18 @@ class SquareBoard():
         board = cls()
         board._columns = map(lambda element: LinearBoard.fromList(element), list_of_lis)
         return board
+    
+    @classmethod
+    def fromBoardCOde(cls, Board_code):
+        return cls.fromBoardRawCode(Board_code.raw_code)
+
+    @classmethod
+    def fromBoardRawCode(cls. board_raw_code):
+        list_of_strings = board_raw_code.split("|")
+        matrix = _explode_list_of_strings(list_of_strings)
+        matrix = replace_all_in_matrix(matrix, '.', None)
+        
+        return cls.fromList(matrix)
 
 
     def __init__(self) :
@@ -44,6 +59,9 @@ class SquareBoard():
         for lb in self._columns:
             result = result and lb.is_full()
         return result
+    
+    def as_code(self):
+        return BoardCode(self)
 
     def as_matrix(self):
         """
@@ -97,4 +115,23 @@ class SquareBoard():
     def __repr__(self) :
          return f'{self.__class__} : {self._columns}'
 
+class BoardCode:
+    def __init__(self, board) :
+        self._raw_code = collapse_matrix(board.as_matrix())
+    
+    @property
+    def raw_code(self):
+        return self._raw_code
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, self.__class__):
+            return False
+
+        else:
+            return self.raw_code == other.raw_code
+
+    def __hash__(self) -> int:
+        return hash(self.raw_code)
+
+    def __repr__(self):
+        return f'{self.__class__}: {self.raw_code}'

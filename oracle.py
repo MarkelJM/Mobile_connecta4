@@ -41,7 +41,7 @@ class ColumnRecommendation():
 
 class ColumnClassification():
     FULL =  -1 #IMPOSIBLE
-    LOSE = 1 #MUY INDESEABLE
+    BAD = 1 #MUY INDESEABLE
     MAYBE = 10 #MAYBE
     WIN = 100   #LA MEJOR OPCION
 
@@ -52,7 +52,7 @@ class SmartOracle(BaseOracle):
             if self._is_winning_move(board, index, player):
                 recommendation.classification = ColumnClassification.WIN
             elif self._is_losing_move(board, index, player):
-                recommendation.classification = ColumnClassification.LOSE
+                recommendation.classification = ColumnClassification.BAD
         return recommendation
 
     def _is_losing_move(self, board, index, player):
@@ -94,3 +94,6 @@ class MemoizingOracle(SmartOracle):
             self._past_recommendations[key] = super().get_recommendation(board, player)
 
         return self._past_recommendations[key]
+
+class LearningOracle(MemoizingOracle):
+    pass

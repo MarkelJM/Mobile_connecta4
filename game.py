@@ -2,7 +2,7 @@
 import pyfiglet
 from enum import Enum, auto
 from match import Match
-from oracle import SmartOracle, BaseOracle
+from oracle import SmartOracle, BaseOracle, LearningOracle
 from player import HumanPlayer, Player
 from square_board import SquareBoard
 from list_utils import reverse_matrix
@@ -126,10 +126,10 @@ class Game:
     def _make_match(self):
         
         _levels = {DifficultyLevel.LOW : BaseOracle(),
-        DifficultyLevel.MEDIUM : SmartOracle(), DifficultyLevel.HIGH : SmartOracle()}
+        DifficultyLevel.MEDIUM : SmartOracle(), DifficultyLevel.HIGH : LearningOracle()}
         if self.round_type == RoundType.COMPUTER_VS_COMPUTER:
-            player1 = Player('T-X', oracle=SmartOracle())
-            player2 = Player('T-1000', oracle=SmartOracle())
+            player1 = Player('T-X', oracle=LearningOracle())
+            player2 = Player('T-1000', oracle=LearningOracle())
         else:
             player1 = Player('T-800', oracle=_levels[self._difficulty_level])
             player2 = HumanPlayer(name=input("escribe tu nombre"))

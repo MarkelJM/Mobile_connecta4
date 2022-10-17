@@ -1,5 +1,6 @@
 from oracle import *
 from square_board import SquareBoard
+from player import Player
 
 def test_base_oracle():
     board = SquareBoard.fromList([[None, None, None, None],
@@ -51,3 +52,18 @@ def test_is_winning_move():
         assert oracle._is_winning_move(almost, i, loser) == False
 
     assert oracle._is_winning_move(almost, 2, winner)
+
+
+def test_no_good_options():
+    x = Player('xavier', char='x')
+    o = Player('Otto', char='o', opponent=x)
+
+    oracle = SmartOracle()
+
+    maybe = SquareBoard.fromBoardRawCode('....|o...|....|....')
+    bad_and_full = SquareBoard.fromBoardRawCode('x...|oo..|o...|xoxo')
+    all_bad = SquareBoard.fromBoardRawCode('x...|oo..|o...|....')
+
+    assert oracle.no_good_options(maybe, x) == False
+    assert oracle.no_good_options(bad_and_full, x)
+    assert oracle.no_good_options(all_bad, x)

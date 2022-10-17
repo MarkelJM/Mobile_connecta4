@@ -3,7 +3,7 @@ import pyfiglet
 from enum import Enum, auto
 from match import Match
 from oracle import SmartOracle, BaseOracle, LearningOracle
-from player import HumanPlayer, Player
+from player import HumanPlayer, Player, ReportingPlayer
 from square_board import SquareBoard
 from list_utils import reverse_matrix
 from beautifultable import BeautifulTable
@@ -20,7 +20,7 @@ class DifficultyLevel(Enum):
     HIGH = auto()
 class Game:
     
-    def __init__(self, round_type = RoundType.COMPUTER_VS_COMPUTER, match = Match(Player('Chip'), Player('Chop'))) :
+    def __init__(self, round_type = RoundType.COMPUTER_VS_COMPUTER, match = Match(ReportingPlayer('Chip'), ReportingPlayer('Chop'))) :
         self.round_type = round_type
         self.match = match
 
@@ -49,7 +49,7 @@ class Game:
                 break
     
     def display_move(self, player):
-        print(f'\n {player.name} ({player.char}) has moved in column {player.last_move}')
+        print(f'\n {player.name} ({player.char}) has moved in column {player.last_move.position}')
 
 
     def display_board(self):
@@ -128,10 +128,10 @@ class Game:
         _levels = {DifficultyLevel.LOW : BaseOracle(),
         DifficultyLevel.MEDIUM : SmartOracle(), DifficultyLevel.HIGH : LearningOracle()}
         if self.round_type == RoundType.COMPUTER_VS_COMPUTER:
-            player1 = Player('T-X', oracle=LearningOracle())
-            player2 = Player('T-1000', oracle=LearningOracle())
+            player1 = ReportingPlayer('T-X', oracle=LearningOracle())
+            player2 = ReportingPlayer('T-1000', oracle=LearningOracle())
         else:
-            player1 = Player('T-800', oracle=_levels[self._difficulty_level])
+            player1 = ReportingPlayer('T-800', oracle=_levels[self._difficulty_level])
             player2 = HumanPlayer(name=input("escribe tu nombre"))
 
         return Match(player1, player2)

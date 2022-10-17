@@ -23,6 +23,16 @@ class BaseOracle():
             classification = ColumnClassification.FULL
 
         return ColumnRecommendation(index, classification)
+    
+    def no_good_options(self, board, player):
+        columnRecommendations = self.get_recommendation(board, player)
+
+        result = True
+        for rec in columnRecommendations:
+            if (rec.classification == ColumnClassification.WIN) or (rec.classification == ColumnClassification.MAYBE):
+                result = False
+                break
+        return result
 class ColumnRecommendation():
     def __init__(self, index, classification):
         self.index = index
@@ -84,16 +94,22 @@ class MemoizingOracle(SmartOracle):
         super().__init__()
         self._past_recommendations = {}
     
-    def _make_key(board, player):
+    def _make_key(self, board_code, player):
 
-        return f'{board.as_code().raw_code}:@{player.char}'
+        return f'{board_code.as_code().raw_code}:@{player.char}'
 
     def get_recommendation(self, board, player):
-        key = self._make_key(board, player)
+        key = self._make_key(board.as_code(), player)
         if key not in self._past_recommendations:
             self._past_recommendations[key] = super().get_recommendation(board, player)
 
         return self._past_recommendations[key]
 
 class LearningOracle(MemoizingOracle):
-    pass
+    
+    
+    def update_to_bad(self, board_code, player, position):
+        key = self._make_key(board_code, player)
+        recommendation = self.get_recommendation(SquareBoard.fromBoardCOde(board_code), player)
+        recommendation[position] = ColumnRecommendation(position, ColumnClassification.BAD)
+        self._past_recommendations[key] = recommendation

@@ -1,6 +1,7 @@
 from random import random
 from settings import  BOARD_LENGTH
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
+from move import Move
 
 class Player():
     """
@@ -33,12 +34,18 @@ class Player():
         #Preegunto al oráculo
         (best, recommendations) = self.ask_oracle(board)
         # Juego en la mejor
-        self._play_on(board, best.index)
+        self._play_on(board, best.index, recommendations)
+
+    def on_win(self):
+        pass
+
+    def on_lose(self):
+        pass
 
     def _play_on(self,board, position):
         #juega en la pos
         board.add(self.char, position)
-        self.last_move = position
+        self.last_move = Move(position, board.as_code(), recommendations, self)
 
     def _ask_oracle(self, board):
         """
@@ -73,7 +80,11 @@ class HumanPlayer(Player):
             if self._is_int(raw) and _is_within_column_range(board, int(raw)) and _is_non_full_column(board, int(raw)):
                 pos = int(raw)
                 return (ColumnRecommendation(pos, None), None)
-
+class ReportingPlayer(Player):
+    def on_lose(self):
+        board_code = self.last_move.board_code
+        position = self.last_move.position
+        self._oracle.update_to_bad(board_code, self, position)
 
     def _is_non_full_column(board, num):
         return not board._columns[num].is_full()

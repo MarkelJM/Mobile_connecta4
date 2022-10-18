@@ -23,6 +23,12 @@ class BaseOracle():
             classification = ColumnClassification.FULL
 
         return ColumnRecommendation(index, classification)
+
+    def update_to_bad(self):
+        pass
+
+    def backtrack(self, move):
+        pass
     
     def no_good_options(self, board, player):
         columnRecommendations = self.get_recommendation(board, player)
@@ -108,8 +114,17 @@ class MemoizingOracle(SmartOracle):
 class LearningOracle(MemoizingOracle):
     
     
-    def update_to_bad(self, board_code, player, position):
-        key = self._make_key(board_code, player)
-        recommendation = self.get_recommendation(SquareBoard.fromBoardCOde(board_code), player)
-        recommendation[position] = ColumnRecommendation(position, ColumnClassification.BAD)
+    def update_to_bad(self, move):
+        key = self._make_key(move)
+        recommendation = self.get_recommendation(SquareBoard.fromBoardCOde(move.board_code), move.player)
+        recommendation[move.position] = ColumnRecommendation(move.position, ColumnClassification.BAD)
         self._past_recommendations[key] = recommendation
+    
+    def backtrack(self, list_of_moves):
+        for move in list_of_moves:
+            self.update_to_bad(move)
+
+            board = SquareBoard.fromBoardCOde(move.board_code)
+            if not self.no_good_options(board, move.player):
+                break
+        

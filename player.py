@@ -13,7 +13,7 @@ class Player():
         self.char = char
         self._oracle = oracle
         self.opponent = opponent
-        self.last_move = None
+        self.last_moves = []
 
     @property
     def opponent(self):
@@ -45,7 +45,7 @@ class Player():
     def _play_on(self,board, position):
         #juega en la pos
         board.add(self.char, position)
-        self.last_move = Move(position, board.as_code(), recommendations, self)
+        self.last_moves.insert(0, Move(position, board.as_code(), recommendations, self))
 
     def _ask_oracle(self, board):
         """
@@ -82,9 +82,10 @@ class HumanPlayer(Player):
                 return (ColumnRecommendation(pos, None), None)
 class ReportingPlayer(Player):
     def on_lose(self):
-        board_code = self.last_move.board_code
-        position = self.last_move.position
-        self._oracle.update_to_bad(board_code, self, position)
+        #board_code = self.last_move.board_code
+        #position = self.last_move.position
+        self._oracle.backtrack(self.last_moves)
+        
 
     def _is_non_full_column(board, num):
         return not board._columns[num].is_full()

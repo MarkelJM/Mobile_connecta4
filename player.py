@@ -1,3 +1,4 @@
+from distutils.debug import DEBUG
 from random import random
 from settings import  BOARD_LENGTH
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
@@ -42,8 +43,11 @@ class Player():
     def on_lose(self):
         pass
 
-    def _play_on(self,board, position):
+    def _play_on(self,board, position, recommendations):
         #juega en la pos
+        if DEBUG:
+            self.display_recommendations(board)
+
         board.add(self.char, position)
         self.last_moves.insert(0, Move(position, board.as_code(), recommendations, self))
 

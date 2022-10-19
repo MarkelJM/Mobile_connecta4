@@ -3,6 +3,12 @@ from enum import Enum, auto
 from square_board import SquareBoard
 from settings import BOARD_LENGTH
 
+class ColumnClassification():
+    FULL =  -1 #IMPOSIBLE
+    LOSE = 1 #derrota inminente
+    BAD = 5 #MUY INDESEABLE
+    MAYBE = 10 #MAYBE
+    WIN = 100   #LA MEJOR OPCION
 class BaseOracle():
     def get_recommendation(self, board, player):
         """
@@ -55,11 +61,7 @@ class ColumnRecommendation():
     def __hash__(self) :
         return hash(self.index, self.classification)
 
-class ColumnClassification():
-    FULL =  -1 #IMPOSIBLE
-    BAD = 1 #MUY INDESEABLE
-    MAYBE = 10 #MAYBE
-    WIN = 100   #LA MEJOR OPCION
+
 
 class SmartOracle(BaseOracle):
     def _get_column_recommendation(self, board, index, player):
@@ -68,7 +70,7 @@ class SmartOracle(BaseOracle):
             if self._is_winning_move(board, index, player):
                 recommendation.classification = ColumnClassification.WIN
             elif self._is_losing_move(board, index, player):
-                recommendation.classification = ColumnClassification.BAD
+                recommendation.classification = ColumnClassification.LOSE
         return recommendation
 
     def _is_losing_move(self, board, index, player):

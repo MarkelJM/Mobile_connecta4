@@ -44,7 +44,7 @@ class Game:
             current_player.play(self.board)
             self.display_move(current_player)
             self.display_board()
-            if self._is_game_over():
+            if self._has_winner_or_tie():
                 self.display_results()
                 break
     
@@ -71,7 +71,7 @@ class Game:
             print(f'\n A tie between {self.match.get_player("x").name} (x) and {self.match.get_player("o").name} (o)')
 
 
-    def _is_game_over(self):
+    def _has_winner_or_tie(self):
         winner = self.match.get_winner(self.board)
         if winner != None:
             winner.on_win()

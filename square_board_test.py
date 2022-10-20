@@ -2,30 +2,32 @@ import pytest
 
 from square_board import *
 
+
 def test_empty_board():
+
     board = SquareBoard()
 
     assert board.is_full() == False
     assert board.is_victory('o') == False
     assert board.is_victory('x') == False
 
+
 def test_vertical_victory():
-    vertical = SquareBoard.fromList([['o', 'x', 'x', 'x' ],
-                                     [None, None, None, None ],
-                                     [None, None, None, None ],
-                                     [None, None, None, None ],
-                                     [None, None, None, None ],
-                                     [None, None, None, None ]])
+    vertical = SquareBoard.fromList([['o', 'x', 'x', 'x', ],
+                                     [None, None, None, None, ],
+                                     [None, None, None, None, ],
+                                     [None, None, None, None, ],
+                                     [None, None, None, None, ]])
     assert vertical.is_victory('x')
     assert vertical.is_victory('o') == False
 
 
 def test_horizontal_victory():
-    horizontal_victory = SquareBoard.fromList([['x', None, None, None, None ],
-                                               ['x', None, None, None, None ],
-                                               ['x', 'o', None, None, None ],
-                                               ['x', 'o', None, None, None ],
-                                               ['x', 'o', None, None, None ]])
+    horizontal_victory = SquareBoard.fromList([['x', None, None, None, None, ],
+                                               ['x', None, None, None, None, ],
+                                               ['x', 'o', None, None, None, ],
+                                               ['x', 'o', None, None, None, ],
+                                               ['x', 'o', None, None, None, ]])
 
     assert horizontal_victory.is_victory('x')
 

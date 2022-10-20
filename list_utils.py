@@ -1,15 +1,11 @@
 
 
-
-
-
-def find_one(list , needle):
+def find_one(list, needle):
     """
-    Devuerlve True si encuentra una o más ocurrencias de needle en list
+    Devuelve True si encuentra una o más ocurencias de needle en list
     """
     return find_n(list, needle, 1)
-    
-   
+
 
 def find_n(list, needle, n):
     """
@@ -34,7 +30,6 @@ def find_n(list, needle, n):
         return count >= n
     else:
         return False
-        
 
 def find_streak(list, needle, n):
     """
@@ -67,25 +62,23 @@ def find_streak(list, needle, n):
     else:
         # para valores de n < 0, no tiene sentido
         return False
-
-def first_elements(list):
+    
+def first_elements(list_of_lists):
     """
-    Devuelve los primeros valores de cada lista de la lista
+    Recibe una lista de listas y devuelve una lista
+    con los primeros elementos de la original
     """
-    return nth_elements(list, 0)
+    return nth_elements(list_of_lists, 0)
 
 def nth_elements(list_of_lists, n):
     """
-    Devuelve los enésimo valores de cada lista de la lista
+    Recibe una lista de listas y devuelve una lista
+    con los enésimos elementos de la original
     """
-    # crear lista vacia
-    lista_first_elements = []
-    # Recorrer la lista
-    for i in list_of_lists:
-        # añadir el primera elemento de cada lista a lista creada
-        lista_first_elements.append(i[n])
-    # devolver la nueva lista
-    return lista_first_elements
+    result = []
+    for list in list_of_lists:
+        result.append(list[n])
+    return result
 
 def transpose(matrix):
     """
@@ -100,32 +93,33 @@ def transpose(matrix):
     # devuelvo trnasp
     return transp
 
-def displace(list, distance, filler=None):
+def displace(l, distance, filler=None):
     if distance == 0:
-        return list
-
-    elif distance > 0 :
+        return l
+    elif distance > 0:
         filling = [filler] * distance
-        res = filling + list
+        res = filling + l
         res = res[:-distance]
         return res
-    
     else:
         filling = [filler] * abs(distance)
-        res = list + filling
+        res = l + filling
         res = res[abs(distance):]
         return res
 
-
 def displace_matrix(m, filler=None):
+    # creamos una matriz vacía
     d = []
+    # por cada calumna de la matriz original la desplazamos su índice -1
     for i in range(len(m)):
-        d.append(displace(m[i], i - 1 , filler))
-
+        # añadimos la columna desplazada a m
+        d.append(displace(m[i], i - 1, filler))
+    
+    # devolvemos d
     return d
 
-def reverse_list(lista):
-    return list(reversed(lista))
+def reverse_list(l):
+    return list(reversed(l))
 
 def reverse_matrix(matrix):
     rm = []
@@ -133,7 +127,12 @@ def reverse_matrix(matrix):
         rm.append(reverse_list(col))
     return rm
 
+
 def all_same(l):
+    """
+    Devuelve True si todos los elemenmtos de la lista son iguales
+    o la lista está vacía
+    """
     if l == []:
         return True
     else:
@@ -143,26 +142,35 @@ def all_same(l):
             if elt != first:
                 same = False
                 break
-        return same
-    
+        return same 
+
 def collapse_list(l, empty = '.'):
-    collasped = ''
+    """
+    Concatena todas las cadenas de la lista en una sola lista
+    """
+    collapsed = ''
     for elt in l:
         if elt == None:
-            collasped = collasped + empty
+            collapsed = collapsed + empty
         else:
-            collasped = collasped + elt
-    
-    return collasped
+            collapsed = collapsed + elt
+    return collapsed
 
-def collapse_matrix(m, empty = '.', fence = '|'):
+def collapse_matrix(m, empty='.', fence = '|'):
+    """
+    Conatena todas las cadenas en una sola separada por |
+    """
     collapsed = ''
     for elt in m:
         collapsed = collapsed + fence + collapse_list(elt, empty)
-
+    
     return collapsed[1:]
 
+
 def replace_all_in_list(original, old, new):
+    """
+    Cambia todas las ocurrencias de old por new
+    """
     result = []
     for elt in original:
         if elt == old:
@@ -172,6 +180,9 @@ def replace_all_in_list(original, old, new):
     return result
 
 def replace_all_in_matrix(original, old, new):
+    """
+    Aplica replace_all_in_list a todas las listas
+    """
     result = []
     for each_list in original:
         result.append(replace_all_in_list(each_list, old, new))

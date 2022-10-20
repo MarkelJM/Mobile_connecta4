@@ -1,6 +1,8 @@
 from oracle import *
 from square_board import SquareBoard
 from player import Player
+from settings import BOARD_LENGTH
+
 
 def test_base_oracle():
     board = SquareBoard.fromList([[None, None, None, None],
@@ -26,7 +28,6 @@ def test_equality():
         2, ColumnClassification.MAYBE)  # equivalentes
 
     # no equivalentes (puesto qu eno tienen la misma clasificación)
-    
     assert cr != ColumnRecommendation(2, ColumnClassification.FULL)
     assert cr != ColumnRecommendation(3, ColumnClassification.FULL)
 
@@ -67,3 +68,20 @@ def test_no_good_options():
     assert oracle.no_good_options(maybe, x) == False
     assert oracle.no_good_options(bad_and_full, x)
     assert oracle.no_good_options(all_bad, x)
+
+
+def test_classification():
+    x = Player('xavier', char='x')
+    o = Player('Otto', char='o', opponent=x)
+
+    oracle1 = SmartOracle()
+    oracle2 = LearningOracle()
+
+    board1 = SquareBoard.fromBoardRawCode('o...|o...|....|x...')
+    expected = [ColumnRecommendation(0, ColumnClassification.LOSE),
+                ColumnRecommendation(1, ColumnClassification.LOSE),
+        ColumnRecommendation(2, ColumnClassification.MAYBE),
+        ColumnRecommendation(3, ColumnClassification.LOSE)]
+
+    assert oracle1.get_recommendation(board1, x) == expected
+    assert oracle2.get_recommendation(board1, x) == expected

@@ -22,10 +22,8 @@ def test_victory():
     assert b.is_victory('o') == False
     assert b.is_victory('x') == True
 
-
 def test_tie():
     b = LinearBoard()
-
 
     b.add('o')
     b.add('o')
@@ -39,8 +37,7 @@ def test_add_to_full():
     full = LinearBoard()
     for i in range(BOARD_LENGTH):
         full.add('x')
-
+    
     full.add('x')
     assert full.is_full()
-    
 
